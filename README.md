@@ -30,7 +30,7 @@ This will build the `gpbackup_s3_plugin` binary in `$HOME/go/bin`.
 ```bash
 make install
 ```
-This will install the `gpbackup_s3_plugin` binary on all the segments hosts. Note that GPDB must be sourced for this to work.
+This will install the `gpbackup_s3_plugin` binary on all the segments hosts. Note that GGDB must be sourced for this to work.
 
 ## Test
 ```bash
@@ -86,7 +86,7 @@ options:
   region: us-west-2
   aws_access_key_id: test-s3-user
   aws_secret_access_key: asdf1234asdf
-  bucket: gpdb-backup
+  bucket: ggdb-backup
   folder: test/backup3
 ```
 
@@ -98,7 +98,7 @@ gpbackup --dbname demo --single-data-file --plugin-config /home/gpadmin/s3-test-
 The S3 storage plugin writes the backup files to this S3 location in the AWS region us-west-2.
 
 ```
-gpdb-backup/test/backup3/backups/YYYYMMDD/YYYYMMDDHHMMSS/
+ggdb-backup/test/backup3/backups/YYYYMMDD/YYYYMMDDHHMMSS/
 ```
 
 ## Notes
