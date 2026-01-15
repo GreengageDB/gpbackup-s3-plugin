@@ -38,10 +38,7 @@ jobs:
         make depend
 
     - name: Build
-      run: |
-        make build
+      run: make build
 
     - name: Unit Test
-      run: |
-        cd ${GOPATH}/src/github.com/GreengageDB/gpbackup-s3-plugin
-        make test
+      run: make test
