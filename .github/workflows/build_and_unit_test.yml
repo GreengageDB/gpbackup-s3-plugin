@@ -17,6 +17,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GOPATH: /home/runner/work/gpbackup-s3-plugin/gpbackup-s3-plugin/go
+    defaults:
+      run:
+        working-directory: ${GOPATH}/src/github.com/GreengageDB/gpbackup-s3-plugin
 
     steps:
     - uses: actions/checkout@v6
@@ -31,13 +34,11 @@ jobs:
 
     - name: Dependencies
       run: |
-        cd ${GOPATH}/src/github.com/GreengageDB/gpbackup-s3-plugin
         go install github.com/onsi/ginkgo/v2/ginkgo
         make depend
 
     - name: Build
       run: |
-        cd ${GOPATH}/src/github.com/GreengageDB/gpbackup-s3-plugin
         make build
 
     - name: Unit Test
