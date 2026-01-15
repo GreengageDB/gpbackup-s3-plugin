@@ -14,7 +14,7 @@ The project requires the Go Programming language version 1.13 or higher. Follow 
 ## Downloading
 
 ```bash
-go get github.com/greenplum-db/gpbackup-s3-plugin/...
+go get github.com/GreengageDB/gpbackup-s3-plugin/...
 ```
 
 ## Building and installing binaries
@@ -102,6 +102,6 @@ gpdb-backup/test/backup3/backups/YYYYMMDD/YYYYMMDDHHMMSS/
 ```
 
 ## Notes
-The S3 storage plugin application must be in the same location on every Greenplum Database host. The configuration file is required only on the coordinator host.
+The S3 storage plugin application must be in the same location on every Greengage Database host. The configuration file is required only on the coordinator host.
 
 Using Amazon S3 to back up and restore data requires an Amazon AWS account with access to the Amazon S3 bucket. The Amazon S3 bucket permissions required are Upload/Delete for the S3 user ID that uploads the files and Open/Download and View for the S3 user ID that accesses the files.
