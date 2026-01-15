@@ -19,7 +19,7 @@ jobs:
       GOPATH: /home/runner/work/gpbackup-s3-plugin/gpbackup-s3-plugin/go
     defaults:
       run:
-        working-directory: ${GOPATH}/src/github.com/GreengageDB/gpbackup-s3-plugin
+        working-directory: go/src/github.com/GreengageDB/gpbackup-s3-plugin
 
     steps:
     - uses: actions/checkout@v6
