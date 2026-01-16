@@ -5,11 +5,11 @@ import (
 	"net/http"
 	"testing"
 
+	"github.com/GreengageDB/gp-common-go-libs/gplog"
+	"github.com/GreengageDB/gp-common-go-libs/testhelper"
+	"github.com/GreengageDB/gpbackup-s3-plugin/s3plugin"
 	"github.com/aws/aws-sdk-go/aws/client"
 	"github.com/aws/aws-sdk-go/aws/request"
-	"github.com/greenplum-db/gp-common-go-libs/gplog"
-	"github.com/greenplum-db/gp-common-go-libs/testhelper"
-	"github.com/greenplum-db/gpbackup-s3-plugin/s3plugin"
 	"github.com/urfave/cli"
 
 	. "github.com/onsi/ginkgo/v2"

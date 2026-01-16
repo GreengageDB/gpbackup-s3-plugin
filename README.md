@@ -14,7 +14,7 @@ The project requires the Go Programming language version 1.13 or higher. Follow 
 ## Downloading
 
 ```bash
-go get github.com/greenplum-db/gpbackup-s3-plugin/...
+go get github.com/GreengageDB/gpbackup-s3-plugin/...
 ```
 
 ## Building and installing binaries
@@ -30,7 +30,7 @@ This will build the `gpbackup_s3_plugin` binary in `$HOME/go/bin`.
 ```bash
 make install
 ```
-This will install the `gpbackup_s3_plugin` binary on all the segments hosts. Note that GPDB must be sourced for this to work.
+This will install the `gpbackup_s3_plugin` binary on all the segments hosts. Note that GGDB must be sourced for this to work.
 
 ## Test
 ```bash
@@ -86,7 +86,7 @@ options:
   region: us-west-2
   aws_access_key_id: test-s3-user
   aws_secret_access_key: asdf1234asdf
-  bucket: gpdb-backup
+  bucket: ggdb-backup
   folder: test/backup3
 ```
 
@@ -98,10 +98,10 @@ gpbackup --dbname demo --single-data-file --plugin-config /home/gpadmin/s3-test-
 The S3 storage plugin writes the backup files to this S3 location in the AWS region us-west-2.
 
 ```
-gpdb-backup/test/backup3/backups/YYYYMMDD/YYYYMMDDHHMMSS/
+ggdb-backup/test/backup3/backups/YYYYMMDD/YYYYMMDDHHMMSS/
 ```
 
 ## Notes
-The S3 storage plugin application must be in the same location on every Greenplum Database host. The configuration file is required only on the coordinator host.
+The S3 storage plugin application must be in the same location on every Greengage Database host. The configuration file is required only on the coordinator host.
 
 Using Amazon S3 to back up and restore data requires an Amazon AWS account with access to the Amazon S3 bucket. The Amazon S3 bucket permissions required are Upload/Delete for the S3 user ID that uploads the files and Open/Download and View for the S3 user ID that accesses the files.
