@@ -10,9 +10,10 @@ S3_PLUGIN=gpbackup_s3_plugin
 DIR_PATH=$(shell dirname `pwd`)
 BIN_DIR=$(shell echo $${GOPATH:-~/go} | awk -F':' '{ print $$1 "/bin"}')
 
-GIT_VERSION := $(or $(shell git describe --tags 2>/dev/null | perl -pe 's/(.*)-([0-9]*)-(g[0-9a-f]*)/\1+dev.\2.\3/'),$(shell cat VERSION))
-ifeq ($(GIT_VERSION),)
-$(error GIT_VERSION is empty: run from a git repo with tags or provide a VERSION file)
+# Version resolution: git tag -> VERSION file (Docker builds without .git) -> 0.0.0+dev (source archives)
+GIT_VERSION := $(or $(shell git describe --tags 2>/dev/null | perl -pe 's/(.*)-([0-9]*)-(g[0-9a-f]*)/\1+dev.\2.\3/'),$(shell cat VERSION 2>/dev/null),0.0.0+dev)
+ifeq ($(GIT_VERSION),0.0.0+dev)
+$(warning GIT_VERSION could not be determined (no git tags, no VERSION file); falling back to 0.0.0+dev)
 endif
 
 PLUGIN_VERSION_STR="-X github.com/GreengageDB/gpbackup-s3-plugin/s3plugin.Version=$(GIT_VERSION)"
@@ -90,7 +91,7 @@ PACKAGE_NAME	:= $(shell grep '^Package:' debian/control | head -1 | awk '{print 
 MAINTAINER		:= $(shell grep '^Maintainer:' debian/control | sed 's/Maintainer: //')
 DATE_RFC		:= $(shell date -R)
 DISTRO_CODENAME := $(shell lsb_release -sc)
-IS_RELEASE      := $(if $(findstring ~dev,$(GIT_VERSION)),no,yes)
+IS_RELEASE      := $(if $(findstring +dev,$(GIT_VERSION)),no,yes)
 BUILD_TYPE      := $(if $(filter yes,$(IS_RELEASE)),Release build,Development build)
 DEB_TOPDIR		?= $(CURDIR)/../deb-packages
 RPM_TOPDIR		?= $(CURDIR)/../RPM
