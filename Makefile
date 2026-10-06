@@ -18,6 +18,8 @@ GOIMPORTS=$(GOPATH)/bin/goimports
 GO_ENV=GO111MODULE=on # ensure the project still compiles in $GOPATH/src using golang versions 1.12 and below
 DEBUG=-gcflags=all="-N -l"
 
+PLUGIN_HOME ?= /opt/greengagedb/gpbackup-s3-plugin
+
 # Prefer gpsync as the newer utility, fall back to gpscp if not present (older installs)
 ifeq (, $(shell which gpsync))
 COPYUTIL=gpscp
@@ -65,40 +67,18 @@ build_mac : depend
 install : build
 		@psql -t -d template1 -c 'select distinct hostname from gp_segment_configuration' > /tmp/seg_hosts 2>/dev/null; \
 		if [ $$? -eq 0 ]; then \
-			$(COPYUTIL) -f /tmp/seg_hosts $(BIN_DIR)/$(S3_PLUGIN) =:$(GPHOME)/bin/$(S3_PLUGIN); \
+			gpssh -f /tmp/seg_hosts -e "mkdir -p $(PLUGIN_HOME)/bin"; \
+			$(COPYUTIL) -f /tmp/seg_hosts $(BIN_DIR)/$(S3_PLUGIN) =:$(PLUGIN_HOME)/bin/$(S3_PLUGIN); \
 			if [ $$? -eq 0 ]; then \
-				echo 'Successfully copied gpbackup_s3_plugin to $(GPHOME) on all segments'; \
+				echo 'Successfully copied gpbackup_s3_plugin to $(PLUGIN_HOME) on all segments'; \
 			else \
-				echo 'Failed to copy gpbackup_s3_plugin to $(GPHOME)'; \
+				echo 'Failed to copy gpbackup_s3_plugin to $(PLUGIN_HOME)'; \
 			fi; \
 		else \
 			echo 'Database is not running, please start the database and run this make target again'; \
 		fi; \
 		rm /tmp/seg_hosts
 
-DATE_RFC := $(shell date -R)
-
-version-vars:
-	$(eval PACKAGE_NAME    := $(shell grep '^Source:' debian/control | awk '{print $$2}'))
-	$(eval MAINTAINER      := $(shell grep '^Maintainer:' debian/control | sed 's/Maintainer: //'))
-	$(eval PACKAGE_VERSION := $(shell git describe --tags 2>/dev/null | perl -pe 's/^v//; s/(.*)-([0-9]+)-(g[0-9a-f]+)/\1~dev.\2.\3/'))
-	$(eval DISTRO_CODENAME := $(shell lsb_release -sc))
-	$(eval IS_RELEASE      := $(if $(findstring ~dev,$(PACKAGE_VERSION)),no,yes))
-	$(eval STABILITY       := $(if $(filter yes,$(IS_RELEASE)),stable,unstable))
-	$(eval BUILD_TYPE      := $(if $(filter yes,$(IS_RELEASE)),Release build,Development build))
-
-debian/changelog: version-vars
-	@echo "$(PACKAGE_NAME) ($(PACKAGE_VERSION)) $(DISTRO_CODENAME); urgency=low" > $@
-	@echo "" >> $@
-	@echo "  * $(BUILD_TYPE)" >> $@
-	@echo "" >> $@
-	@echo " -- $(MAINTAINER)  $(DATE_RFC)" >> $@
-
-changelog: debian/changelog
-
-deb: debian/changelog
-	dpkg-buildpackage -us -uc -b
-	
 clean :
 		# Build artifacts
 		rm -f $(BIN_DIR)/$(S3_PLUGIN)
