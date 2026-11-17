@@ -9,7 +9,7 @@ The S3 plugin supports both AWS and custom storage servers that implement the S3
 
 ## Pre-Requisites
 
-The project requires the Go Programming language version 1.13 or higher. Follow the directions [here](https://golang.org/doc/) for installation, usage and configuration instructions.
+The project requires the Go Programming language version 1.26.11 or higher. Follow the directions [here](https://golang.org/doc/) for installation, usage and configuration instructions.
 
 ## Downloading
 

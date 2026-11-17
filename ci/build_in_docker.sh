@@ -8,7 +8,7 @@
 
 set -eo pipefail
 
-GO_VERSION=${GO_VERSION:-1.26.4}
+GO_VERSION=${GO_VERSION:-1.26.11}
 
 function assert_root() {
     if [ "$(id -u)" -ne 0 ]; then

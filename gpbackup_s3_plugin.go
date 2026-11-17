@@ -110,7 +110,7 @@ func main() {
 
 	err := app.Run(os.Args)
 	if err != nil {
-		gplog.Error(err.Error())
+		gplog.Error("%v", err)
 		os.Exit(1)
 	}
 }
