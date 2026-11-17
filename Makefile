@@ -15,7 +15,7 @@ PLUGIN_VERSION_STR="-X github.com/GreengageDB/gpbackup-s3-plugin/s3plugin.Versio
 GOLANG_LINTER=$(GOPATH)/bin/golangci-lint
 GINKGO=$(GOPATH)/bin/ginkgo
 GOIMPORTS=$(GOPATH)/bin/goimports
-GO_ENV=GO111MODULE=on # ensure the project still compiles in $GOPATH/src using golang versions 1.12 and below
+GO_ENV=GO111MODULE=on
 DEBUG=-gcflags=all="-N -l"
 
 # Prefer gpsync as the newer utility, fall back to gpscp if not present (older installs)
