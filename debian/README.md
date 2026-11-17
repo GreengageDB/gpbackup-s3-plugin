@@ -24,7 +24,7 @@ with the packaging toolchain; Go is installed by `ci/build_in_docker.sh`.
 | --- | --- | --- | --- | --- |
 | `DEB_PACKAGES` | `package.mk` | No | `Package/<package>_<version>` | Overrides the final output directory (used by CI) |
 | `PLUGIN_VERSION` | `package.mk` | No | — | Explicit version override, takes priority over git and `.version` |
-| `GO_VERSION` | `ci/build_in_docker.sh` | No | `1.26.4` | Go toolchain downloaded from go.dev into `/usr/local/go` |
+| `GO_VERSION` | `ci/build_in_docker.sh` | No | `1.26.11` | Go toolchain downloaded from go.dev into `/usr/local/go` |
 
 `go` must be in `PATH` or in `/usr/local/go/bin` (`debuild` resets `PATH`,
 so `debian/rules` prepends that directory).
